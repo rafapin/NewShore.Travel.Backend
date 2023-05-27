@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace NewShore.Travel.Api.Controllers
+namespace NewShore.Travel.Api.Controllers.v1
 {
     [ApiController]
     [Route("[controller]")]
