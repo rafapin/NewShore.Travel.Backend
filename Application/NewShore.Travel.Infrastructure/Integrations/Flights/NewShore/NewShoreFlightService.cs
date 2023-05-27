@@ -20,23 +20,19 @@ namespace NewShore.Travel.Infrastructure.Integrations.Flights.NewShore
         {
             _httpClient = httpClient;
             var urlNewshoreService = Environment.GetEnvironmentVariable("newShoreUrlApi") ?? throw new NullReferenceException("newShoreUrlApi");
-            _httpClient.BaseAddress = new Uri(urlNewshoreService);
+            _httpClient.BaseAddress = new Uri(urlNewshoreService); 
         }
 
-        public async Task<Journey> GetFlights(string origin, string destination)
+        public async Task<List<Flight>> GetFlights()
         {
-            var journey = new Journey(origin,destination);
-
             if (NewShoreFlightStore.Flights == null)
             {
-                var response = await _httpClient.GetAsync($"/flights/2");
+                var response = await _httpClient.GetAsync($"flights/2");
                 response.EnsureSuccessStatusCode();
                 var responseString = await response.Content.ReadAsStringAsync();
                 NewShoreFlightStore.Flights = JsonSerializer.Deserialize<List<NewShoreFlight>>(responseString, defaultJsonSerializerOptions);
             }
-            journey.Flights= NewShoreFlightStore.Flights
-                    .Where(flight => (flight.DepartureStation == origin && flight.ArrivalStation == destination)
-                        || (flight.DepartureStation == destination && flight.ArrivalStation == origin ))
+            return NewShoreFlightStore.Flights
                     .Select(flight=> new Flight
                     {
                         Origin = flight.DepartureStation,
@@ -49,9 +45,6 @@ namespace NewShore.Travel.Infrastructure.Integrations.Flights.NewShore
                         }
                     })
                     .ToList();
-
-            
-            return journey;
         }
     }
 }

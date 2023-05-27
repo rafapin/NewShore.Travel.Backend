@@ -7,13 +7,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{E49B32C1-74F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{F6D0EFB0-30CE-4555-8787-74C468D04032}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewShore.Travel.Api", "NewShore.Travel.Api\NewShore.Travel.Api.csproj", "{BD99ACD3-92C9-4055-BE6E-266F9170699C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewShore.Travel.Api", "NewShore.Travel.Api\NewShore.Travel.Api.csproj", "{BD99ACD3-92C9-4055-BE6E-266F9170699C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewShore.Travel.Domain", "Application\NewShore.Travel.Domain\NewShore.Travel.Domain.csproj", "{505B1F14-2C06-44B0-A456-EA4DAEC3F27F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewShore.Travel.Domain", "Application\NewShore.Travel.Domain\NewShore.Travel.Domain.csproj", "{505B1F14-2C06-44B0-A456-EA4DAEC3F27F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewShore.Travel.Application", "Application\NewShore.Travel.Application\NewShore.Travel.Application.csproj", "{27439903-1306-485E-8350-76C7A736C57E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewShore.Travel.Application", "Application\NewShore.Travel.Application\NewShore.Travel.Application.csproj", "{27439903-1306-485E-8350-76C7A736C57E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewShore.Travel.Infrastructure", "Application\NewShore.Travel.Infrastructure\NewShore.Travel.Infrastructure.csproj", "{5B101DBD-3D26-42A1-A850-B3C462706512}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{627D86B9-1DFC-43D6-89F8-A4E2A4F558DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewShore.Travel.Test", "Tests\NewShore.Travel.Test\NewShore.Travel.Test.csproj", "{5D64F228-75D8-4C96-8516-501FA43CE6D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,10 @@ Global
 		{5B101DBD-3D26-42A1-A850-B3C462706512}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B101DBD-3D26-42A1-A850-B3C462706512}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B101DBD-3D26-42A1-A850-B3C462706512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D64F228-75D8-4C96-8516-501FA43CE6D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D64F228-75D8-4C96-8516-501FA43CE6D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D64F228-75D8-4C96-8516-501FA43CE6D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D64F228-75D8-4C96-8516-501FA43CE6D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +54,7 @@ Global
 		{505B1F14-2C06-44B0-A456-EA4DAEC3F27F} = {F6D0EFB0-30CE-4555-8787-74C468D04032}
 		{27439903-1306-485E-8350-76C7A736C57E} = {F6D0EFB0-30CE-4555-8787-74C468D04032}
 		{5B101DBD-3D26-42A1-A850-B3C462706512} = {F6D0EFB0-30CE-4555-8787-74C468D04032}
+		{5D64F228-75D8-4C96-8516-501FA43CE6D4} = {627D86B9-1DFC-43D6-89F8-A4E2A4F558DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8FA0E70B-F43C-4062-B798-6AC94091594B}

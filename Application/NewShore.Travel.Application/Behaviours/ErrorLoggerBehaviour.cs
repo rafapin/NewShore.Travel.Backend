@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-using Microsoft.Extensions.Logging;
+using NewShore.Travel.Application.Contracts.Logger;
 
 namespace NewShore.Travel.Application.Behaviours
 {
@@ -10,8 +10,8 @@ namespace NewShore.Travel.Application.Behaviours
         where TRequest : IRequest<TResponse>
     {
 
-        private readonly ILogger<ErrorLoggerBehaviour<TRequest, TResponse>> _logger;
-        public ErrorLoggerBehaviour(ILogger<ErrorLoggerBehaviour<TRequest, TResponse>> logger)
+        private readonly ICustomLogger<ErrorLoggerBehaviour<TRequest, TResponse>> _logger;
+        public ErrorLoggerBehaviour(ICustomLogger<ErrorLoggerBehaviour<TRequest, TResponse>> logger)
         {
             _logger = logger;
         }

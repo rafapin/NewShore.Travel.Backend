@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using NewShore.Travel.Domain.Features.Entities;
 using NewShore.Travel.Domain.Features.Flights.Contracts.Integrations;
+using NewShore.Travel.Domain.Features.Flights.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NewShore.Travel.Application.Features.Queries.GetFlightsByOriginAndDestination
 {
-    public class GetFlightsByOriginAndDestinationQueryHandler : IRequestHandler<GetFlightsByOriginAndDestinationQuery,Journey>
+    public class GetFlightsByOriginAndDestinationQueryHandler : IRequestHandler<GetFlightsByOriginAndDestinationQuery,List<Journey>>
     {
         private readonly IFlightsService _flightsService;
 
@@ -17,21 +19,55 @@ namespace NewShore.Travel.Application.Features.Queries.GetFlightsByOriginAndDest
             _flightsService = flightsService;
         }
 
-        public async Task<Journey> Handle(GetFlightsByOriginAndDestinationQuery request, CancellationToken cancellationToken)
+        public async Task<List<Journey>> Handle(GetFlightsByOriginAndDestinationQuery request, CancellationToken cancellationToken)
         {
-            var journey = await _flightsService.GetFlights(request.Origin, request.Destination);
-            var firstFlight = GetCheapFlight(journey.Flights, request.Origin, request.Destination);
-            var secondFlight = GetCheapFlight(journey.Flights, request.Origin, request.Destination);
-            journey.Flights = new List<Flight> { firstFlight, secondFlight };
-            journey.Price = firstFlight.Price + secondFlight.Price;
-            return journey;
+            var flights = await _flightsService.GetFlights();
+            var routes = FindFlights(flights, request.Origin, request.Destination, request.MaxNumberFlights);
+            if (!routes.Any())
+                throw new Exception(ValidationMessages.RouteFlightUnavailable);
+            var journeys = routes.Select(route=> new Journey(request.Origin, request.Destination)
+            {
+                Flights = route,
+                Price = route.Sum(flight => flight.Price)
+            })
+            .OrderBy(journey=> journey.Price)
+            .ToList();
+            return journeys;
         }
 
-        private Flight GetCheapFlight(List<Flight> flights,string origin,string destination)
+        private List<List<Flight>> FindFlights(List<Flight> flights, string origin, string destination,int maxNumberFlights)
         {
-            return flights.Where(flight => flight.Origin == origin && flight.Destination == destination)
-                    .OrderBy(flight => flight.Price)
-                    .FirstOrDefault();
+            var routes = new List<List<Flight>>();
+            var currentRoute = new List<Flight>();
+
+            void DFS(Flight currentFlight, int depth)
+            {
+                currentRoute.Add(currentFlight);
+
+                if (currentFlight.Destination == destination && depth <= maxNumberFlights)
+                {
+                    routes.Add(new List<Flight>(currentRoute));
+                }
+                else if (depth < maxNumberFlights)
+                {
+                    var nextFlights = flights.Where(f => f.Origin == currentFlight.Destination
+                        && !currentRoute.Any(route => route.Origin == currentFlight.Destination));
+
+                    foreach (var nextFlight in nextFlights)
+                    {
+                        DFS(nextFlight, depth + 1);
+                    }
+                }
+
+                currentRoute.RemoveAt(currentRoute.Count - 1);
+            }
+
+            var initialFlights = flights.Where(f => f.Origin == origin);
+            foreach (var initialFlight in initialFlights)
+            {
+                DFS(initialFlight, 1);
+            }
+            return routes;
         }
     }
 }
